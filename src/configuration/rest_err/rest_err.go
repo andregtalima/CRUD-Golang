@@ -5,8 +5,8 @@ import "net/http"
 type RestErr struct {
 	Message string   `json:"message"`
 	Err     string   `json: "error"`
-	Code    int64    `json:"code"`
-	Causes  []Causes `json: "causes"`
+	Code    int    `json:"code"`
+	Causes  []Causes `json:"causes"`
 }
 
 type Causes struct {
@@ -18,7 +18,7 @@ func (r *RestErr) Error() string {
 	return r.Message
 }
 
-func NewRestErr(message string, err string, code int64, causes []Causes) *RestErr {
+func NewRestErr(message string, err string, code int, causes []Causes) *RestErr {
 	return &RestErr{
 		Message: message,
 		Err:     err,
@@ -31,7 +31,7 @@ func NewBadRequestError(message string) *RestErr {
 	return &RestErr{
 		Message: message,
 		Err:     "Bad request",
-		Code:    http.StatusBadGateway,
+		Code:    http.StatusBadRequest,
 	}
 }
 
@@ -39,7 +39,7 @@ func NewBadRequestValidationError(message string, causes []Causes) *RestErr {
 	return &RestErr{
 		Message: message,
 		Err:     "Bad request",
-		Code:    http.StatusBadGateway,
+		Code:    http.StatusBadRequest,
 		Causes: causes,
 	}
 }
